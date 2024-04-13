@@ -4,6 +4,7 @@
   --color-background-100: #343a40;
   --color-background-500: #2b3035;
   --color-background-900: #212529;
+  --color-header-text: #fbd23f;
 }
 
 * {
@@ -100,14 +101,23 @@ header {
 }
 
 .header-left h1 {
-  font-size: 50px;
+  font-size: 54px;
   margin-bottom: 20px;
   line-height: 1.2;
+  letter-spacing: 0.00735em;
+  color: var(--color-header-text);
+  border-left: 5px solid var(--color-header-text);
+  padding: 0 0 0 20px;
 }
 
 .header-left p {
   font-size: 18px;
   line-height: 1.8;
+}
+
+.movie-icon {
+  height: 30px;
+  width: 30px;
 }
 
 .header-right {
@@ -129,6 +139,7 @@ header {
 .header-right::before {
   position: absolute;
   content: "";
+  left: -5px;
   z-index: 99;
   height: 100%;
   width: 1400px;
@@ -144,6 +155,49 @@ header {
   height: 222px;
 }
 
-/* .header-img {
-  transform: translateZ(-50px);
-} */
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+  0% {
+    transform: scale(1);
+  }
+}
+
+.header-right img:nth-child(odd) {
+  animation: heartbeat 3s infinite;
+}
+
+/* Genre Colors */
+
+.action {
+  color: rgb(140, 140, 255);
+}
+.horrer {
+  color: rgb(145, 145, 145);
+}
+.thriller {
+  color: rgb(255, 140, 255);
+}
+.comedy {
+  color: rgb(140, 255, 196);
+}
+.drama {
+  color: rgb(255, 140, 140);
+}
+.romance {
+  color: Pink;
+}
+.adventure {
+  color: rgb(140, 255, 140);
+}
+
+#header__tag {
+  transition: color 0.5s ease-in-out;
+  font-family: "Satisfy", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
