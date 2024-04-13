@@ -1,13 +1,203 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --color-text: #dee2e6;
+  --color-background-50: #3d444b;
+  --color-background-100: #343a40;
+  --color-background-500: #2b3035;
+  --color-background-900: #212529;
+  --color-header-text: #fbd23f;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-background-900);
+}
+
+/* GLOBAL CSS */
+
+.header-right img::-webkit-scrollbar {
+  display: none;
+  scroll-behavior: smooth;
+}
+
+.container {
+  width: 1100px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+p {
+  color: #a1a1a1;
+}
+
+/* NAVBAR */
+
+nav {
+  background-color: var(--color-background-500);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.09);
+  font-size: 1.7rem;
+  height: auto;
+  left: 0;
+  padding: 25px 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 200;
+}
+
+nav .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.nav-logo img {
+  height: 30px;
+  width: 30px;
+}
+
+.nav-logo h3 {
+  font-size: 24px;
+}
+
+.search {
+  background-color: var(--color-background-50);
+  color: var(--color-text);
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  transition: all 0.3s;
+  width: 30rem;
+}
+
+/* HEADER CSS */
+
+header {
+  display: grid;
+  /* grid-template-columns: repeat(3, 1fr); */
+  grid-template-columns: 2fr 1fr;
+  padding-top: 165px;
+  justify-content: space-between;
+  position: relative;
+}
+
+.header-left h1 {
+  font-size: 54px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  letter-spacing: 0.00735em;
+  color: var(--color-header-text);
+  border-left: 5px solid var(--color-header-text);
+  padding: 0 0 0 20px;
+}
+
+.header-left p {
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.movie-icon {
+  height: 30px;
+  width: 30px;
+}
+
+.header-right {
+  max-width: 600px;
+  position: relative;
+  top: -40px;
+  right: 140px;
+  transform: perspective(700px) rotateY(-40deg);
+  z-index: -200;
+}
+
+.movies-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.header-right::before {
+  position: absolute;
+  content: "";
+  left: -5px;
+  z-index: 99;
+  height: 100%;
+  width: 1400px;
+  background-image: linear-gradient(
+    90deg,
+    var(--color-background-900),
+    transparent
+  );
+}
+
+.header-right img {
+  width: 150px;
+  height: 222px;
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+  0% {
+    transform: scale(1);
+  }
+}
+
+.header-right img:nth-child(odd) {
+  animation: heartbeat 3s infinite;
+}
+
+/* Genre Colors */
+
+.action {
+  color: rgb(140, 140, 255);
+}
+.horrer {
+  color: rgb(145, 145, 145);
+}
+.thriller {
+  color: rgb(255, 140, 255);
+}
+.comedy {
+  color: rgb(140, 255, 196);
+}
+.drama {
+  color: rgb(255, 140, 140);
+}
+.romance {
+  color: Pink;
+}
+.adventure {
+  color: rgb(140, 255, 140);
+}
+
+#header__tag {
+  transition: color 0.5s ease-in-out;
+  font-family: "Satisfy", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
