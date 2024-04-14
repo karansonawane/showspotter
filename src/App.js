@@ -90,6 +90,9 @@ export default function App() {
             { signal: controller.signal }
           );
 
+          if (!res.ok)
+            throw new Error("Something went wrong with fetching movies");
+
           const data = await res.json();
           const firstTenRecords = await data.results.slice(0, 10);
           // console.log(data.results);
