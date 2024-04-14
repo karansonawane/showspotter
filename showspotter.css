@@ -38,8 +38,12 @@ body {
   overflow: hidden;
 }
 
-p {
-  color: #a1a1a1;
+header {
+  margin-bottom: 128px;
+}
+
+section {
+  margin-bottom: 48px;
 }
 
 /* NAVBAR */
@@ -113,6 +117,7 @@ header {
 .header-left p {
   font-size: 18px;
   line-height: 1.8;
+  color: #a1a1a1;
 }
 
 .movie-icon {
@@ -200,4 +205,64 @@ header {
   font-family: "Satisfy", cursive;
   font-weight: 400;
   font-style: normal;
+}
+
+/* TOP RATED */
+
+.top-rated-movies-list {
+  position: relative;
+}
+
+.top-rated-movies-title {
+  font-size: 20px;
+  margin-bottom: 24px;
+  color: var(--color-header-text);
+  border-left: 5px solid var(--color-header-text);
+  padding-left: 10px;
+  border-radius: 5px;
+}
+
+.movie-list-grid-col {
+  list-style: none;
+  /* display: grid; */
+  display: flex;
+  gap: 8px;
+}
+
+.movie-list-grid-col img {
+  height: 222px;
+  width: 150px;
+  object-fit: cover;
+}
+
+.left-arrow-div,
+.right-arrow-div {
+  background-color: rgb(251, 210, 63, 0.4);
+  padding: 10px;
+  border: 1.5px solid #fff;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #fff;
+  font-weight: bolder;
+}
+
+.left-arrow-div:hover {
+  background-color: rgb(251, 210, 63, 0.6);
+  color: var(--color-background-900);
+}
+
+.right-arrow-div:hover {
+  background-color: rgb(251, 210, 63, 0.6);
+  color: var(--color-background-900);
+}
+
+.left-arrow-div {
+  position: absolute;
+  top: 40%;
+}
+.right-arrow-div {
+  position: absolute;
+  top: 40%;
+  right: 0;
 }
