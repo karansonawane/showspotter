@@ -224,9 +224,8 @@ header {
 
 .movie-list-grid-col {
   list-style: none;
-  /* display: grid; */
   display: flex;
-  gap: 8px;
+  justify-content: start;
 }
 
 .movie-list-grid-col img {
@@ -265,4 +264,15 @@ header {
   position: absolute;
   top: 40%;
   right: 0;
+}
+
+.row-item {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.poster {
+  width: 150px;
+  max-width: 200px;
 }

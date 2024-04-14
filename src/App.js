@@ -96,7 +96,7 @@ export default function App() {
           const data = await res.json();
           const firstTenRecords = await data.results.slice(0, 10);
           // console.log(data.results);
-          console.log(firstTenRecords);
+          // console.log(firstTenRecords);
           setMovies(data.results);
           setMoviesBanner(firstTenRecords);
         } catch (error) {}
@@ -117,6 +117,8 @@ export default function App() {
       <NavBar />
       <div className="container">
         <Header movies={movies} moviesBanner={moviesBanner} />
+        <TopRatedMoviesList />
+        <ReleasedCurrentYearMoviesList currentYearMovie={movies} />
       </div>
     </>
   );
@@ -175,6 +177,165 @@ function Movies({ movie }) {
   return (
     <li>
       <img src={`${IMG_URL + movie.poster_path}`} alt={`${movie.title}`} />
+    </li>
+  );
+}
+
+function TopRatedMoviesList() {
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
+  useEffect(function () {
+    async function fetchTopRatedMovies() {
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`,
+          options
+        );
+
+        const data = await res.json();
+        console.log(data.results);
+        setTopRatedMovies(data.results);
+      } catch (error) {}
+    }
+    fetchTopRatedMovies();
+  }, []);
+
+  const slideLeft = () => {
+    let slider = document.getElementById("slider");
+    slider.scrollLeft = slider.scrollLeft - 1110;
+    console.log("left");
+  };
+
+  const slideRight = () => {
+    let slider = document.getElementById("slider");
+    slider.scrollLeft = slider.scrollLeft + 1110;
+    console.log("right");
+  };
+  return (
+    <section className="top-rated-movies">
+      <div className="top-rated-movies-title">
+        <p>Top Rated Movies</p>
+      </div>
+      <div className="top-rated-movies-list">
+        <div onClick={slideLeft} className="left-arrow-div">
+          <i className="fa-solid fa-caret-left left-arrow"></i>
+        </div>
+        <div onClick={slideRight} className="right-arrow-div">
+          <i className="fa-solid fa-caret-right right-arrow"></i>
+        </div>
+        <div className="movie-list-grid-col-main">
+          <ul className="movie-list-grid-col" id="slider">
+            {topRatedMovies?.map((movie) => (
+              <TopRatedMovies movie={movie} key={movie.id} />
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TopRatedMovies({ movie }) {
+  const fullDate = movie.release_date;
+  const year = fullDate.split("-")[0];
+  return (
+    <li className="row-items">
+      <img
+        src={`${IMG_URL + movie.poster_path}`}
+        alt={movie.title}
+        className="poster"
+      />
+      <div className="movie-details">
+        <p className="movie-title"> {movie.title} </p>
+        <div className="movie-info">
+          <p className="movie-year">
+            <span>📅</span>
+            <span> {year} </span>
+          </p>
+          <p className="movie-rating">
+            <span>⭐</span>
+            <span> {movie.vote_average} </span>
+          </p>
+        </div>
+      </div>
+    </li>
+  );
+}
+function ReleasedCurrentYearMoviesList({ currentYearMovie }) {
+  /*   const [topRatedMovies, setTopRatedMovies] = useState([]);
+  useEffect(function () {
+    async function fetchTopRatedMovies() {
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`,
+          options
+        );
+
+        const data = await res.json();
+        console.log(data.results);
+        setTopRatedMovies(data.results);
+      } catch (error) {}
+    }
+    fetchTopRatedMovies();
+  }, []); */
+
+  const slideLeft = () => {
+    let slider = document.getElementById("slider-current-year");
+    slider.scrollLeft = slider.scrollLeft - 1110;
+    console.log("left");
+  };
+
+  const slideRight = () => {
+    let slider = document.getElementById("slider-current-year");
+    slider.scrollLeft = slider.scrollLeft + 1110;
+    console.log("right");
+  };
+  return (
+    <section className="top-rated-movies">
+      <div className="top-rated-movies-title">
+        <p>Latest Populars Movies</p>
+      </div>
+      <div className="top-rated-movies-list">
+        <div onClick={slideLeft} className="left-arrow-div">
+          <i className="fa-solid fa-caret-left left-arrow"></i>
+        </div>
+        <div onClick={slideRight} className="right-arrow-div">
+          <i className="fa-solid fa-caret-right right-arrow"></i>
+        </div>
+        <div className="movie-list-grid-col-main">
+          <ul className="movie-list-grid-col" id="slider-current-year">
+            {currentYearMovie?.map((movie) => (
+              <ReleasedCurrentYearMovies movie={movie} key={movie.id} />
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ReleasedCurrentYearMovies({ movie }) {
+  const fullDate = movie.release_date;
+  const year = fullDate.split("-")[0];
+  return (
+    <li className="row-items">
+      <img
+        src={`${IMG_URL + movie.poster_path}`}
+        alt={movie.title}
+        className="poster"
+      />
+      <div className="movie-details">
+        <p className="movie-title"> {movie.title} </p>
+        <div className="movie-info">
+          <p className="movie-year">
+            <span>📅</span>
+            <span> {year} </span>
+          </p>
+          <p className="movie-rating">
+            <span>⭐</span>
+            <span> {movie.vote_average} </span>
+          </p>
+        </div>
+      </div>
     </li>
   );
 }

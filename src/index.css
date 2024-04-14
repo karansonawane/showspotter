@@ -11,7 +11,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  scrollbar-width: thin;
+  scrollbar-width: none;
 }
 
 html {
@@ -38,8 +38,12 @@ body {
   overflow: hidden;
 }
 
-p {
-  color: #a1a1a1;
+header {
+  margin-bottom: 128px;
+}
+
+section {
+  margin-bottom: 48px;
 }
 
 /* NAVBAR */
@@ -50,7 +54,7 @@ nav {
   font-size: 1.7rem;
   height: auto;
   left: 0;
-  padding: 20px 0;
+  padding: 25px 0;
   position: fixed;
   top: 0;
   width: 100%;
@@ -113,6 +117,7 @@ header {
 .header-left p {
   font-size: 18px;
   line-height: 1.8;
+  color: #a1a1a1;
 }
 
 .movie-icon {
@@ -201,4 +206,97 @@ header {
   font-family: "Satisfy", cursive;
   font-weight: 400;
   font-style: normal;
+}
+
+/* TOP RATED */
+
+.top-rated-movies-list {
+  position: relative;
+}
+
+.top-rated-movies-title {
+  font-size: 20px;
+  margin-bottom: 24px;
+  color: var(--color-header-text);
+  border-left: 5px solid var(--color-header-text);
+  padding-left: 10px;
+  border-radius: 5px;
+}
+
+.movie-list-grid-col {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  scroll-behavior: smooth;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+
+.movie-list-grid-col img {
+  /* height: 222px; */
+  width: 213px;
+  object-fit: cover;
+}
+
+.left-arrow-div,
+.right-arrow-div {
+  background-color: rgb(251, 210, 63, 0.4);
+  padding: 10px;
+  border: 1.5px solid #fff;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #fff;
+  font-weight: bolder;
+}
+
+.left-arrow-div:hover {
+  background-color: rgb(251, 210, 63, 0.6);
+  color: var(--color-background-900);
+}
+
+.right-arrow-div:hover {
+  background-color: rgb(251, 210, 63, 0.6);
+  color: var(--color-background-900);
+}
+
+.left-arrow-div {
+  position: absolute;
+  top: 140px;
+}
+.right-arrow-div {
+  position: absolute;
+  top: 140px;
+  right: 0;
+}
+
+.row-items {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-background-500);
+}
+
+.poster {
+  margin-bottom: 10px;
+}
+
+.movie-details {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 20px 20px;
+}
+
+.movie-title {
+  margin-bottom: 20px;
+  height: 30px;
+}
+
+.movie-details .movie-title {
+  font-size: 14px;
+}
+
+.movie-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
 }
