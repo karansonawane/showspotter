@@ -68,6 +68,7 @@ export default function App() {
 
   useEffect(
     function () {
+      document.title = "showSpotter";
       const controller = new AbortController();
 
       async function fetchMoviesByQuery() {
@@ -103,7 +104,6 @@ export default function App() {
 
       return function () {
         controller.abort();
-        document.title = "showSpotter";
       };
     },
     [query]
