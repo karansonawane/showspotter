@@ -5,6 +5,7 @@
   --color-background-500: #2b3035;
   --color-background-900: #212529;
   --color-header-text: #fbd23f;
+  --color-header-text-50: #fbd23f99;
 }
 
 * {
@@ -35,7 +36,6 @@ body {
 .container {
   width: 1100px;
   margin: 0 auto;
-  overflow: hidden;
 }
 
 header {
@@ -71,6 +71,9 @@ nav .container {
   display: flex;
   gap: 10px;
   align-items: center;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
 }
 
 .nav-logo img {
@@ -91,6 +94,28 @@ nav .container {
   outline: none;
   transition: all 0.3s;
   width: 30rem;
+}
+
+.nav-right ul {
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #000;
+  background-color: var(--color-header-text);
+  padding: 10px;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.nav-links a:hover {
+  background-color: var(--color-header-text-50);
+}
+
+.search-btn {
+  cursor: pointer;
 }
 
 /* HEADER CSS */

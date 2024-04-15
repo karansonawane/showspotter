@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+import { Link } from "react-scroll";
+
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 const API_KEY = "6e070cdc79b34ca6fca8fddf69ffc3c6";
 const options = {
@@ -119,28 +121,57 @@ export default function App() {
         <Header movies={movies} moviesBanner={moviesBanner} />
         <TopRatedMoviesList />
         <ReleasedCurrentYearMoviesList currentYearMovie={movies} />
+        <SearchBar movies={movies} />
       </div>
     </>
   );
 }
 
 function NavBar() {
+  // const scrollView = () =>
+  //   document
+  //     .getElementById("search-btn")
+  //     .addEventListener("click", function () {
+  //       document
+  //         .getElementById("searchBar")
+  //         .scrollIntoView({ behavior: "smooth" });
+  //     });
+
   return (
     <nav>
       <div className="container">
-        <div className="nav-logo">
+        <Link
+          to="home"
+          spy={true}
+          smooth={true}
+          offset={50}
+          duration={200}
+          className="nav-logo"
+        >
           <img src="Images/popcorn.png" alt="" />
           <h3>showSpotter</h3>
-        </div>
+        </Link>
         <div className="nav-right">
-          <input type="text" className="search" placeholder="Search IMDB..." />
+          <ul className="nav-links">
+            <li className="search-btn">
+              <Link
+                to="searchBar"
+                spy={true}
+                smooth={true}
+                offset={-100}
+                duration={200}
+              >
+                Search
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
   );
 }
 
-function Header({ movies, moviesBanner }) {
+function Header({ moviesBanner }) {
   return (
     <header id="home" className="home">
       <div className="header-left">
@@ -211,7 +242,7 @@ function TopRatedMoviesList() {
     console.log("right");
   };
   return (
-    <section className="top-rated-movies">
+    <section className="top-rated-movies" id="topRated">
       <div className="top-rated-movies-title">
         <p>Top Rated Movies</p>
       </div>
@@ -290,9 +321,9 @@ function ReleasedCurrentYearMoviesList({ currentYearMovie }) {
     console.log("right");
   };
   return (
-    <section className="top-rated-movies">
+    <section className="top-rated-movies" id="latestMovies">
       <div className="top-rated-movies-title">
-        <p>Latest Populars Movies</p>
+        <p>Latest Popular Movies</p>
       </div>
       <div className="top-rated-movies-list">
         <div onClick={slideLeft} className="left-arrow-div">
@@ -337,5 +368,13 @@ function ReleasedCurrentYearMovies({ movie }) {
         </div>
       </div>
     </li>
+  );
+}
+
+function SearchBar() {
+  return (
+    <section id="searchBar" className="searchBar">
+      <input type="text" className="search" placeholder="Search IMDB..." />
+    </section>
   );
 }
