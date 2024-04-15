@@ -3,6 +3,7 @@ import "./App.css";
 
 import { Link } from "react-scroll";
 
+// const KEY = "fe57d955";
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 const API_KEY = "6e070cdc79b34ca6fca8fddf69ffc3c6";
 const options = {
@@ -58,55 +59,21 @@ const options = {
 ]; */
 
 export default function App() {
-  // let year = new Date().getFullYear();
   const [movies, setMovies] = useState([]);
   const [moviesBanner, setMoviesBanner] = useState([]);
   const [searchedMovieList, setSearchedMovieList] = useState([]);
   const [query, setQuery] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(
     function () {
       const controller = new AbortController();
-      /* const tagLineElement = document.getElementById("header__tag");
-      const genreToReplace = [
-        { genre: "Action", colorClass: "action" },
-        { genre: "Horrer", colorClass: "horrer" },
-        { genre: "Drama", colorClass: "drama" },
-        { genre: "Thriller", colorClass: "thriller" },
-        { genre: "Comedy", colorClass: "comedy" },
-        { genre: "Romance", colorClass: "romance" },
-        { genre: "Adventure", colorClass: "adventure" },
-      ];
-      let index = 0;
-
-      const interval = setInterval(() => {
-        index = (index + 1) % genreToReplace.length;
-        const { genre, colorClass } = genreToReplace[index];
-        tagLineElement.textContent = genre;
-        tagLineElement.className = colorClass;
-      }, 3000);
-
-      async function fetchMovies() {
-        try {
-          const res = await fetch(
-            `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&year=${year}?api_key=${API_KEY}`,
-            options
-          );
-
-          if (!res.ok)
-            throw new Error("Something went wrong with fetching movies");
-
-          const data = await res.json();
-          const firstTenRecords = await data.results.slice(0, 10);
-          // console.log(data.results);
-          // console.log(firstTenRecords);
-          setMovies(data.results);
-          setMoviesBanner(firstTenRecords);
-        } catch (error) {}
-      } */
 
       async function fetchMoviesByQuery() {
         try {
+          setIsLoading(true);
+          setError("");
           const res = await fetch(
             `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false`,
             options,
@@ -117,20 +84,24 @@ export default function App() {
             throw new Error("Something went wrong with fetching movies");
 
           const data = await res.json();
-          // if (data.Response === "false") throw new Error("Movie not found");
-          // console.log(data.Response);
+          if (query && data.results.length === 0)
+            throw new Error("Movie not found");
           console.log(data.results);
           setSearchedMovieList(data.results);
+          setError("");
         } catch (error) {
-          console.log(error.message);
+          if (error.name !== "AbortError") {
+            console.log(error.message);
+            setError(error.message);
+          }
+        } finally {
+          setIsLoading(false);
         }
       }
 
-      // fetchMovies();
       fetchMoviesByQuery();
 
-      return () => {
-        // clearInterval(interval);
+      return function () {
         controller.abort();
         document.title = "showSpotter";
       };
@@ -148,17 +119,39 @@ export default function App() {
           moviesBanner={moviesBanner}
           setMoviesBanner={setMoviesBanner}
         />
-        <TopRatedMoviesList />
-        <ReleasedCurrentYearMoviesList currentYearMovie={movies} />
+        <MoviesListSectionTitle>Search Movies</MoviesListSectionTitle>
         <SearchBar
           searchedMovieList={searchedMovieList}
           query={query}
           setQuery={setQuery}
         />
-        <SearchedMovieList searchedMovieList={searchedMovieList} />
+        {isLoading && <Loader />}
+        {!isLoading && !error && (
+          <SearchedMovieList searchedMovieList={searchedMovieList} />
+        )}
+        {error && <ErrorMessage message={error} />}
+        <TopRatedMoviesList>
+          <MoviesListSectionTitle> Top Rated Movies </MoviesListSectionTitle>
+        </TopRatedMoviesList>
+        <ReleasedCurrentYearMoviesList currentYearMovie={movies}>
+          <MoviesListSectionTitle>Latest Popular Movies</MoviesListSectionTitle>
+        </ReleasedCurrentYearMoviesList>
       </div>
+      <Footer />
     </>
   );
+}
+
+function ErrorMessage({ message }) {
+  return (
+    <p className="error">
+      <span>⛔️</span> {message}
+    </p>
+  );
+}
+
+function Loader() {
+  return <p className="loader">Loading...</p>;
 }
 
 function NavBar() {
@@ -169,7 +162,7 @@ function NavBar() {
           to="home"
           spy={true}
           smooth={true}
-          offset={50}
+          offset={-50}
           duration={200}
           className="nav-logo"
         >
@@ -183,7 +176,7 @@ function NavBar() {
                 to="searchSection"
                 spy={true}
                 smooth={true}
-                offset={-100}
+                offset={-250}
                 duration={200}
               >
                 Search
@@ -196,7 +189,7 @@ function NavBar() {
   );
 }
 
-function Header({ movies, setMovies, moviesBanner, setMoviesBanner }) {
+function Header({ setMovies, moviesBanner, setMoviesBanner }) {
   let year = new Date().getFullYear();
 
   useEffect(
@@ -208,8 +201,8 @@ function Header({ movies, setMovies, moviesBanner, setMoviesBanner }) {
         { genre: "Drama", colorClass: "drama" },
         { genre: "Thriller", colorClass: "thriller" },
         { genre: "Comedy", colorClass: "comedy" },
-        { genre: "Romance", colorClass: "romance" },
-        { genre: "Adventure", colorClass: "adventure" },
+        { genre: "Romantic", colorClass: "romance" },
+        { genre: "Adventures", colorClass: "adventure" },
       ];
       let index = 0;
 
@@ -287,7 +280,15 @@ function Movies({ movie }) {
   );
 }
 
-function TopRatedMoviesList() {
+function MoviesListSectionTitle({ children }) {
+  return (
+    <div className="movies-list-title">
+      <p>{children}</p>
+    </div>
+  );
+}
+
+function TopRatedMoviesList({ children }) {
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   useEffect(function () {
     async function fetchTopRatedMovies() {
@@ -318,9 +319,7 @@ function TopRatedMoviesList() {
   };
   return (
     <section className="top-rated-movies" id="topRated">
-      <div className="top-rated-movies-title">
-        <p>Top Rated Movies</p>
-      </div>
+      {children}
       <div className="top-rated-movies-list">
         <div onClick={slideLeft} className="left-arrow-div">
           <i className="fa-solid fa-caret-left left-arrow"></i>
@@ -366,24 +365,7 @@ function TopRatedMovies({ movie }) {
     </li>
   );
 }
-function ReleasedCurrentYearMoviesList({ currentYearMovie }) {
-  /*   const [topRatedMovies, setTopRatedMovies] = useState([]);
-  useEffect(function () {
-    async function fetchTopRatedMovies() {
-      try {
-        const res = await fetch(
-          `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`,
-          options
-        );
-
-        const data = await res.json();
-        console.log(data.results);
-        setTopRatedMovies(data.results);
-      } catch (error) {}
-    }
-    fetchTopRatedMovies();
-  }, []); */
-
+function ReleasedCurrentYearMoviesList({ children, currentYearMovie }) {
   const slideLeft = () => {
     let slider = document.getElementById("slider-current-year");
     slider.scrollLeft = slider.scrollLeft - 1110;
@@ -397,9 +379,7 @@ function ReleasedCurrentYearMoviesList({ currentYearMovie }) {
   };
   return (
     <section className="top-rated-movies" id="latestMovies">
-      <div className="top-rated-movies-title">
-        <p>Latest Popular Movies</p>
-      </div>
+      {children}
       <div className="top-rated-movies-list">
         <div onClick={slideLeft} className="left-arrow-div">
           <i className="fa-solid fa-caret-left left-arrow"></i>
@@ -469,32 +449,6 @@ function NumResults({ searchedMovieList }) {
 }
 
 function SearchedMovieList({ searchedMovieList }) {
-  /*   useEffect(
-    function () {
-      async function fetchMoviesByQuery() {
-        try {
-          const res = await fetch(
-            `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false`,
-            options
-          );
-
-          if (!res.ok)
-            throw new Error("Something went wrong with fetching movies");
-
-          const data = await res.json();
-          // if (data.Response === "false") throw new Error("Movie not found");
-          // console.log(data.Response);
-          console.log(data.results);
-          setSearchedMovieList(data.results);
-        } catch (error) {
-          console.log(error.message);
-        }
-      }
-
-      fetchMoviesByQuery();
-    },
-    [query]
-  ); */
   const slideLeft = () => {
     let slider = document.getElementById("slider-searched-movie");
     slider.scrollLeft = slider.scrollLeft - 1110;
@@ -509,10 +463,6 @@ function SearchedMovieList({ searchedMovieList }) {
   return (
     <>
       <section className="top-rated-movies" id="searchSection">
-        <div className="top-rated-movies-title">
-          <p>Search Your Movies</p>
-        </div>
-
         {searchedMovieList.length > 0 && (
           <div className="top-rated-movies-list">
             <div onClick={slideLeft} className="left-arrow-div">
@@ -532,5 +482,15 @@ function SearchedMovieList({ searchedMovieList }) {
         )}
       </section>
     </>
+  );
+}
+
+function Footer() {
+  return (
+    <footer>
+      <div className="container">
+        <p>Copyright © 2024. All rights are reserved</p>
+      </div>
+    </footer>
   );
 }
