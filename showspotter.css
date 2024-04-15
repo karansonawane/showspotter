@@ -35,7 +35,6 @@ body {
 .container {
   width: 1100px;
   margin: 0 auto;
-  overflow: hidden;
 }
 
 header {
@@ -91,6 +90,18 @@ nav .container {
   outline: none;
   transition: all 0.3s;
   width: 30rem;
+}
+
+.nav-right ul {
+  list-style: none;
+}
+
+.btn-search {
+  background-color: var(--color-header-text);
+  padding: 10px;
+  border: none;
+  color: #000;
+  border-radius: 2px;
 }
 
 /* HEADER CSS */
