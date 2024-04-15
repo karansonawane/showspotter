@@ -5,7 +5,7 @@ import { Link } from "react-scroll";
 
 // const KEY = "fe57d955";
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
-const API_KEY = "6e070cdc79b34ca6fca8fddf69ffc3c6";
+const API_KEY = process.env.REACT_APP_API_KEY;
 const options = {
   method: "GET",
   headers: {
