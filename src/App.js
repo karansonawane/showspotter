@@ -3,7 +3,6 @@ import "./App.css";
 
 import { Link } from "react-scroll";
 
-// const KEY = "fe57d955";
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 const API_KEY = process.env.REACT_APP_API_KEY;
 const options = {
@@ -14,49 +13,6 @@ const options = {
       "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ZTA3MGNkYzc5YjM0Y2E2ZmNhOGZkZGY2OWZmYzNjNiIsInN1YiI6IjY2MWFhY2RiYWY2ZTk0MDE2M2VjZmQ2NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.W_Il9OE8rB0fPaRAxTsJPJjanV6t53bQWX0UxLGxUwM",
   },
 };
-
-/* const imageUrls = [
-  {
-    id: "693134",
-    Poster: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
-  },
-  {
-    id: "1011985",
-    Poster: "https://image.tmdb.org/t/p/w500/f7QBvIzoWSJw3jWPGnZBc5vwQ0l.jpg",
-  },
-  {
-    id: "823464",
-    Poster: "https://image.tmdb.org/t/p/w500/tMefBSflR6PGQLv7WvFPpKLZkyk.jpg",
-  },
-  {
-    id: "693134",
-    Poster: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
-  },
-  {
-    id: "1011985",
-    Poster: "https://image.tmdb.org/t/p/w500/f7QBvIzoWSJw3jWPGnZBc5vwQ0l.jpg",
-  },
-  {
-    id: "823464",
-    Poster: "https://image.tmdb.org/t/p/w500/tMefBSflR6PGQLv7WvFPpKLZkyk.jpg",
-  },
-  {
-    id: "693134",
-    Poster: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
-  },
-  {
-    id: "1011985",
-    Poster: "https://image.tmdb.org/t/p/w500/f7QBvIzoWSJw3jWPGnZBc5vwQ0l.jpg",
-  },
-  {
-    id: "823464",
-    Poster: "https://image.tmdb.org/t/p/w500/tMefBSflR6PGQLv7WvFPpKLZkyk.jpg",
-  },
-  {
-    id: "693134",
-    Poster: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
-  },
-]; */
 
 export default function App() {
   const [movies, setMovies] = useState([]);
@@ -87,12 +43,10 @@ export default function App() {
           const data = await res.json();
           if (query && data.results.length === 0)
             throw new Error("Movie not found");
-          console.log(data.results);
           setSearchedMovieList(data.results);
           setError("");
         } catch (error) {
           if (error.name !== "AbortError") {
-            console.log(error.message);
             setError(error.message);
           }
         } finally {
@@ -225,8 +179,6 @@ function Header({ setMovies, moviesBanner, setMoviesBanner }) {
 
           const data = await res.json();
           const firstTenRecords = await data.results.slice(0, 10);
-          // console.log(data.results);
-          // console.log(firstTenRecords);
           setMovies(data.results);
           setMoviesBanner(firstTenRecords);
         } catch (error) {}
@@ -299,7 +251,6 @@ function TopRatedMoviesList({ children }) {
         );
 
         const data = await res.json();
-        // console.log(data.results);
         setTopRatedMovies(data.results);
       } catch (error) {}
     }
@@ -309,13 +260,11 @@ function TopRatedMoviesList({ children }) {
   const slideLeft = () => {
     let slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft - 1110;
-    console.log("left");
   };
 
   const slideRight = () => {
     let slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft + 1110;
-    console.log("right");
   };
   return (
     <section className="top-rated-movies" id="topRated">
@@ -369,13 +318,11 @@ function ReleasedCurrentYearMoviesList({ children, currentYearMovie }) {
   const slideLeft = () => {
     let slider = document.getElementById("slider-current-year");
     slider.scrollLeft = slider.scrollLeft - 1110;
-    console.log("left");
   };
 
   const slideRight = () => {
     let slider = document.getElementById("slider-current-year");
     slider.scrollLeft = slider.scrollLeft + 1110;
-    console.log("right");
   };
   return (
     <section className="top-rated-movies" id="latestMovies">
@@ -452,13 +399,11 @@ function SearchedMovieList({ searchedMovieList }) {
   const slideLeft = () => {
     let slider = document.getElementById("slider-searched-movie");
     slider.scrollLeft = slider.scrollLeft - 1110;
-    console.log("left");
   };
 
   const slideRight = () => {
     let slider = document.getElementById("slider-searched-movie");
     slider.scrollLeft = slider.scrollLeft + 1110;
-    console.log("right");
   };
   return (
     <>
